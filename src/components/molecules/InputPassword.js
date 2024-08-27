@@ -3,9 +3,8 @@ import { Image, TouchableWithoutFeedback, StyleSheet, View } from 'react-native'
 import { ICONS } from '../../global';
 import { Icon, IconElement, Input, Text } from '@ui-kitten/components';
 
-const InputPassword = ({ label, placeholder }) => {
+const InputPassword = ({ value, label, placeholder, onChangeText }) => {
 
-  const [value, setValue] = React.useState('');
   const [secureTextEntry, setSecureTextEntry] = React.useState(true);
 
   const toggleSecureEntry = () => {
@@ -28,7 +27,7 @@ const InputPassword = ({ label, placeholder }) => {
       placeholder={placeholder}
       accessoryRight={renderIcon}
       secureTextEntry={secureTextEntry}
-      onChangeText={nextValue => setValue(nextValue)}
+      onChangeText={onChangeText}
     />
   );
 };

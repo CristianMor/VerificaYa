@@ -11,7 +11,9 @@ import {
   Spinner
 } from '@ui-kitten/components';
 
-import * as eva from '@eva-design/eva';
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
+import { initializeApp } from 'firebase/app';
+import { firebaseConfig } from '../../../firebase-config';
 
 const LoadingIndicator = (props) => (
   <View style={[props.style, styles.indicator]}>
@@ -22,6 +24,9 @@ const LoadingIndicator = (props) => (
 const LoginScreen = () => {
 
   const [data, setData] = React.useState({ username: "", password: "" });
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
 
   const changeUserName = nextValue => setData({...data, username: nextValue});
   const changePassword = nextValue => setData({...data, password: nextValue});
@@ -34,7 +39,7 @@ const LoginScreen = () => {
   }
 
   const textButtonInit = true ? "Iniciando" : "Iniciar";
-  const textButtonCreate = true ? "Creando" : "Crear cuenta";
+  const textButtonInit = true ? "Crando" : "Crear cuenta";
   const accessoryLeft = true ? () => <LoadingIndicator /> : null;
 
   return (
@@ -81,14 +86,7 @@ const LoginScreen = () => {
   );
 };
 
-export default function App() {
-
-  return (
-    <ApplicationProvider {...eva} theme={eva.light}>
-      <LoginScreen />
-    </ApplicationProvider>
-  );
-}
+export default LoginScreen;
 
 const styles = StyleSheet.create({
   mainContainer: {
@@ -100,9 +98,8 @@ const styles = StyleSheet.create({
   formContainer: {
     justifyContent: 'space-around',
     width: '100%', 
-    height: '45%',
+    height: '35%',
     paddingHorizontal: 10,
-    backgroundColor: COLORS.BLACK
   },
   fooContainer: { 
     width: '100%', 

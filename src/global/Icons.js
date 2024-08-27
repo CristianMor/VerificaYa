@@ -1,7 +1,11 @@
+import CLOSE_PANEL from "../../assets/icons/close_panel.png";
+import EYE from '../../assets/icons/eye.png';
+import EYE_OFF from '../../assets/icons/eye_off.png';
 import LOGO from "../../assets/icons/logo.png";
-import STEP_OUT from "../../assets/icons/step_out.png";
 
 export const ICONS = {
+  CLOSE_PANEL,
+  EYE, 
+  EYE_OFF,
   LOGO,
-  STEP_OUT
 }

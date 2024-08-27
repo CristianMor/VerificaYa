@@ -1,15 +1,9 @@
 import React from 'react';
-import { TouchableWithoutFeedback, StyleSheet, View } from 'react-native';
+import { Image, TouchableWithoutFeedback, StyleSheet, View } from 'react-native';
+import { ICONS } from '../../global';
 import { Icon, IconElement, Input, Text } from '@ui-kitten/components';
 
-const AlertIcon = (props) => (
-  <Icon
-    {...props}
-    name='alert-circle-outline'
-  />
-);
-
-const InputAccessoriesShowcase = ({ label, placeholder }) => {
+const InputPassword = ({ label, placeholder }) => {
 
   const [value, setValue] = React.useState('');
   const [secureTextEntry, setSecureTextEntry] = React.useState(true);
@@ -20,38 +14,26 @@ const InputAccessoriesShowcase = ({ label, placeholder }) => {
 
   const renderIcon = (props) => (
     <TouchableWithoutFeedback onPress={toggleSecureEntry}>
-      <Icon
+      <Image 
         {...props}
-        name={secureTextEntry ? 'eye-off' : 'eye'}
+        source={secureTextEntry ? ICONS.EYE_OFF : ICONS.EYE}
       />
     </TouchableWithoutFeedback>
   );
-
-  const renderCaption = () => {
-    return (
-      <View style={styles.captionContainer}>
-        {AlertIcon(styles.captionIcon)}
-        <Text style={styles.captionText}>
-Should contain at least 8 symbols
-        </Text>
-      </View>
-    );
-  };
 
   return (
     <Input
       value={value}
       label={label}
       placeholder={placeholder}
-      //caption={renderCaption}
-      //accessoryRight={renderIcon}
+      accessoryRight={renderIcon}
       secureTextEntry={secureTextEntry}
       onChangeText={nextValue => setValue(nextValue)}
     />
   );
 };
 
-export default InputAccessoriesShowcase;
+export default InputPassword;
 
 const styles = StyleSheet.create({
   captionContainer: {
@@ -67,7 +49,7 @@ const styles = StyleSheet.create({
   captionText: {
     fontSize: 12,
     fontWeight: '400',
-    fontFamily: 'opensans-regular',
+    //fontFamily: 'opensans-regular',
     color: '#8F9BB3',
   },
 });

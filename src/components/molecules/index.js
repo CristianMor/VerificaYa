@@ -1,5 +1,5 @@
-import InputAccessoriesShowcase from './InputAccessoriesShowcase.js';
+import InputPassword from './InputPassword.js';
 
 export { 
-  InputAccessoriesShowcase,
+  InputPassword,
 }

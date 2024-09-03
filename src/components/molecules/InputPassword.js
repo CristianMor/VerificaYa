@@ -1,7 +1,7 @@
 import React from 'react';
 import { Image, TouchableWithoutFeedback, StyleSheet, View } from 'react-native';
 import { ICONS } from '../../global';
-import { Icon, IconElement, Input, Text } from '@ui-kitten/components';
+import { Input, Text } from '@ui-kitten/components';
 
 const InputPassword = ({ value, label, placeholder, onChangeText }) => {
 

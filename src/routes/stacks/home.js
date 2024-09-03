@@ -1,11 +1,11 @@
 import React from 'react';
-import { Button, Text, useTheme } from '@ui-kitten/components';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { AuthContext } from '../../context';
 import { logout } from '../../screens/Home/actions';
+import { Button, Text, useTheme } from '@ui-kitten/components';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import HomeScreen from '../../screens/Home';
-
+import AddRequestScreen from '../../screens/AddRequest';
 
 export default () => {
 
@@ -36,6 +36,16 @@ export default () => {
           headerStyle: { backgroundColor },
           headerRight
         }} 
+      />
+      <Stack.Screen 
+        name={"AddRequest"}
+        component={AddRequestScreen}
+        options={{
+          title: "Solicitud",
+          presentation: "modal",
+          headerStyle: { backgroundColor },
+          headerTitleStyle: { color }
+        }}
       />
     </Stack.Navigator>
   );

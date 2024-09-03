@@ -1,74 +1,40 @@
 import React from 'react';
-import { Alert, Image, StyleSheet, TouchableOpacity, Pressable, View } from 'react-native';
-import { COLORS, ICONS } from '../../global';
-import { InputPassword } from '../../components/molecules';
 import { 
   ApplicationProvider, 
   Input,
   Button, 
   Layout, 
   Text,
-  Spinner
+  useTheme,
 } from '@ui-kitten/components';
-
+import { AuthContext } from '../../context';
+import { COLORS, ICONS } from '../../global';
+import { createAccount, login } from './actions';
 import { useNavigation } from '@react-navigation/native';
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
-import { auth } from '../../config/firebase';
-
-const LoadingIndicator = (props) => (
-  <View style={[props.style, styles.indicator]}>
-    <Spinner status={"primary"} size={"small"} />
-  </View>
-);
+import { InputPassword } from '../../components/molecules';
+import { LoadingIndicator } from './../../components/atoms';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { Alert, Image, StyleSheet, TouchableOpacity, Pressable, View } from 'react-native';
 
 const LoginScreen = () => {
-
-  const [loading, setLoading] = React.useState([{ active: false, label: "Iniciar"}, { active : false, label: 'Crear cuenta'}]);
-  const [data, setData] = React.useState({ email: "", password: "" });
-
+  
+  const theme = useTheme();
   const navigation = useNavigation();
+
+  const [data, setData] = React.useState({ email: "", password: "" });
+  const { authState: { loading }, authDispatch } = React.useContext(AuthContext);
 
   const changeEmail = nextValue => setData({...data, email: nextValue});
   const changePassword = nextValue => setData({...data, password: nextValue});
 
-  const handleLogin = () => {
-    const { email, password } = data;
-    if(email.length < 1 || password.length < 1){
-      Alert.alert("¡Ups! Parece que olvidaste algo.", "Por favor, asegúrate de ingresar tu correo electrónico y contraseña para continuar.");
-    }else {
-      signInWithEmailAndPassword(auth, email, password).then(userCredential => {
-        const user = userCredential.user;
-        navigation.navigate("Home");
-      }).catch(error => {
-          Alert.alert(error.message);
-      });
-    }
-  };
-
-  const handleCreateAccount = () => {
-    const { email, password } = data;
-    if(email.length < 1 || password.length < 1){
-      Alert.alert("¡Ups! Parece que olvidaste algo.", "Por favor, asegúrate de ingresar tu correo electrónico y contraseña para continuar.");
-    }else {
-      createUserWithEmailAndPassword(auth, email, password).then(userCredential => {
-        const user = userCredential.user;
-        navigation.navigate("Home");
-      }).catch(error => {
-          Alert.alert(error.message);
-      });
-    }
-  };
-
-  const openAccountRecovery = () => {
-    alert("Vamos a recuperar la cuenta vijito");
-  };
-
   const accessoryLeftInit = loading[0].active ? () => <LoadingIndicator /> : null;
   const accessoryLeftCreate = loading[1].active ? () => <LoadingIndicator /> : null;
 
+  const tintColor = theme['color-primary-500'];
+
   return (
     <Layout style={styles.mainContainer} level={"4"} >
-      <Image source={ICONS.LOGO} style={styles.logo} />
+      <Image source={ICONS.LOGO} style={[styles.logo, { tintColor }]} />
       <View style={styles.formContainer} >
         <Input
           value={data.email}
@@ -84,26 +50,26 @@ const LoginScreen = () => {
         />
         <Button
           appearance={"filled"}
-          onPress={handleLogin}
+          onPress={() => login(data)(authDispatch)}
           accessoryLeft={accessoryLeftInit}
           size={"large"}
-          status={"basic"}
-        >
-          <Text category={"h6"} status={"primary"}>{loading[0].label}</Text>
+          status={"primary"}
+          >
+          <Text>{loading[0].label}</Text>
         </Button>
         <Button
           appearance={"filled"}
-          onPress={handleCreateAccount}
+          onPress={() => createAccount(data)(authDispatch)}
           accessoryLeft={accessoryLeftCreate}
           size={"large"}
-          status={"basic"}
+          status={"primary"}
         >
-          <Text category={"h6"} status={"primary"}>{loading[1].label}</Text>
+          <Text>{loading[1].label}</Text>
         </Button>
       </View>
       <View style={styles.fooContainer}>
-        <Pressable onPress={openAccountRecovery} style={styles.linkContainerAccountRecovery}>
-          <Text category={"p2"} status={"info"}>{"Recuperar cuenta"}</Text> 
+        <Pressable onPress={() => navigation.navigate("Recovery")} style={styles.linkContainerAccountRecovery}>
+          <Text category={"c2"} status={"info"}>{"Recuperar cuenta"}</Text> 
         </Pressable>
       </View>
     </Layout>
@@ -122,7 +88,7 @@ const styles = StyleSheet.create({
   formContainer: {
     justifyContent: 'space-around',
     width: '100%', 
-    height: '45%',
+    height: '30%',
     paddingHorizontal: 10,
   },
   fooContainer: { 
@@ -133,10 +99,6 @@ const styles = StyleSheet.create({
     resizeMode: 'containt',
     width: '80%',
     marginBottom: 10,
-  },
-  indicator: {
-    justifyContent: 'center',
-    alignItems: 'center',
   },
   linkContainerAccountRecovery: { 
     alignItems: 'center', 

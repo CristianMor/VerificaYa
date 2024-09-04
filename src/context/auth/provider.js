@@ -10,7 +10,7 @@ export const AuthProvider = ({ children }) => {
 
   const validateSession = React.useCallback(async () => {
     try {
-      const userSession = await AsyncStorage.getItem("@user_session");
+      const userSession = JSON.parse(await AsyncStorage.getItem("@user_session"));
       if(userSession) return authDispatch({ type: "AUTHENTICATED" }); 
       return authDispatch({ type: "NOT_AUTHENTICATED" });
     } catch(e) {

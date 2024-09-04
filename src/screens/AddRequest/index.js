@@ -1,10 +1,16 @@
 import React from 'react';
+import { addRequest } from './actions';
 import { Image, StyleSheet } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { LoadingIndicator } from '../../components/atoms';
 import { Button, Input, Layout, Text } from '@ui-kitten/components';
 
 const AddRequestScreen = () => {
 
-  const [request, setRequest] = React.useState({ title: '', description: '' });
+  const navigation = useNavigation();
+  const [request, setRequest] = React.useState({ title: '', description: '', status: "pending" });
+  const [state, dispatch] = React.useReducer(reducers, initialStates);
+
   const disabled = request.title < 1;
 
   const changeTitleText = (value) => setRequest({...request, title: value });
@@ -29,9 +35,24 @@ const AddRequestScreen = () => {
         />
       <Button
         disabled={disabled}
-      >{"Agregar Solicitud"}</Button>
+        onPress={() => addRequest(request, navigation)(dispatch)}
+      >{state.loading ? <LoadingIndicator /> : "Agregar Solicitud"}</Button>
     </Layout>
   );
+};
+
+const initialStates = {
+  loading: false
+};
+
+const reducers = (state, { type, payload}) => {
+  switch(type){
+    case "CHANGE_LOADER":
+      return {
+        ...state,
+        loading: true
+      }
+  }
 };
 
 export default AddRequestScreen;

@@ -11,8 +11,8 @@ export default ({ email, password }) => (dispatch) => {
   }else {
     dispatch({ type: "CHANGE_LOADER", payload: { start: 1, loading }});
     loading = {...loading, active: false };
-   signInWithEmailAndPassword(auth, email, password).then(userCredential => {
-      AsyncStorage.setItem("@user_session", "AUTHENTICATED");
+    signInWithEmailAndPassword(auth, email, password).then(userCredential => {
+      AsyncStorage.setItem("@user_session", JSON.stringify({ email: userCredential.user.email }));
       dispatch({ type: "AUTHENTICATED", payload: { start: 1, loading }});
     }).catch(error => {
       Alert.alert("Ah ocurrido un error");

@@ -1,3 +1,4 @@
+import { Alert } from 'react-native';
 import { db } from '../../../config/firebase';
 import { collection, addDoc } from 'firebase/firestore';
 
@@ -15,7 +16,14 @@ export default (request, navigation) => async (dispatch) => {
   if (mm < 10) mm = '0' + mm;
 
   const formatted = yyyy + '-' + mm + '-' + dd;
-  await addDoc(collection(db, "requests"), {...request, user_email: email, created_at: formatted });
-  navigation.goBack();
+  await addDoc(collection(db, "requests"), {...request, userEmail: email, createdAt: formatted });
+  dispatch({ type: "CHANGE_LOADER" });
+  Alert.alert(
+    '¡Solicitud enviado!',
+    'Tu solicitud ha sido enviada correctamente. Pronto recibirás una confirmación.',
+    [
+      { text: 'OK', onPress: () => navigation.goBack() }
+    ]
+  );
 };
 

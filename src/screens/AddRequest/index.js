@@ -50,7 +50,7 @@ const reducers = (state, { type, payload}) => {
     case "CHANGE_LOADER":
       return {
         ...state,
-        loading: true
+        loading: !state.loading 
       }
   }
 };

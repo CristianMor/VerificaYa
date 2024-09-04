@@ -22,6 +22,7 @@ const InputPassword = ({ value, label, placeholder, onChangeText }) => {
 
   return (
     <Input
+      style={{ marginBottom: 20}}
       value={value}
       label={label}
       placeholder={placeholder}
@@ -48,7 +49,6 @@ const styles = StyleSheet.create({
   captionText: {
     fontSize: 12,
     fontWeight: '400',
-    //fontFamily: 'opensans-regular',
     color: '#8F9BB3',
   },
 });

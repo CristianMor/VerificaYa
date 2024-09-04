@@ -35,8 +35,8 @@ const LoginScreen = () => {
   return (
     <Layout style={styles.mainContainer} level={"4"} >
       <Image source={ICONS.LOGO} style={[styles.logo, { tintColor }]} />
-      <View style={styles.formContainer} >
         <Input
+          style={{ marginBottom: 10 }}
           value={data.email}
           label={"Correo electrónico"}
           placeholder={"Ingresa tu Correo electrónico"}
@@ -49,6 +49,7 @@ const LoginScreen = () => {
           onChangeText={changePassword}
         />
         <Button
+          style={{ width: '100%', marginBottom: 10 }}
           appearance={"filled"}
           onPress={() => login(data)(authDispatch)}
           accessoryLeft={accessoryLeftInit}
@@ -58,6 +59,7 @@ const LoginScreen = () => {
           <Text>{loading[0].label}</Text>
         </Button>
         <Button
+          style={{ width: '100%' }}
           appearance={"filled"}
           onPress={() => createAccount(data)(authDispatch)}
           accessoryLeft={accessoryLeftCreate}
@@ -66,7 +68,6 @@ const LoginScreen = () => {
         >
           <Text>{loading[1].label}</Text>
         </Button>
-      </View>
       <View style={styles.fooContainer}>
         <Pressable onPress={() => navigation.navigate("Recovery")} style={styles.linkContainerAccountRecovery}>
           <Text category={"c2"} status={"info"}>{"Recuperar cuenta"}</Text> 
@@ -84,12 +85,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center', 
     alignItems: 'center', 
     paddingHorizontal: 25
-  },
-  formContainer: {
-    justifyContent: 'space-around',
-    width: '100%', 
-    height: '30%',
-    paddingHorizontal: 10,
   },
   fooContainer: { 
     width: '100%', 
